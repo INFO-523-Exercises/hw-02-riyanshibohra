@@ -1,0 +1,117 @@
+---
+title: "Homework 2- Exploring like a Data Adventurer"
+author: Riyanshi Bohra
+format: html
+editor: visual
+---
+
+# Homework 2-
+
+# Exploring like a Data Adventurer
+
+# Setting up
+
+```{r}
+options(digits = 2)
+
+# Installing and loading required packages 
+if (!require(pacman))
+  install.packages("pacman")
+
+pacman::p_load(dlookr, 
+               formattable, 
+               here, 
+               kableExtra, 
+               knitr, 
+               tidyverse) 
+```
+
+## Loading the Tornados dataset
+
+```{r}
+dataset <- read.csv("/Users/riyanshibohra/Desktop/tornados.csv") 
+```
+
+# Diagnosing the data
+
+```{r}
+# What does the data look like?
+dataset |>
+  head() |>
+  formattable()
+```
+
+```{r}
+# Exploring the properties of the data
+dataset |>
+  diagnose() |>
+  formattable()
+```
+
+## Analyzing the continuous data
+```{r}
+# Summary statistics 
+dataset |>
+  describe() |>
+  formattable()
+```
+
+```{r}
+# Selecting the most important statistics measures for analysis 
+dataset |>
+  describe() |>
+  select(described_variables, n, na, mean, sd, se_mean, IQR, skewness, kurtosis, p25, p50, p75) |>
+  formattable()
+```
+## Describing the Categorical Variables
+
+```{r}
+dataset |>
+  diagnose_category() |>
+  formattable()
+```
+## Grouping the Descriptive Statistics
+```{r}
+dataset |>
+  group_by(st) |>
+  describe() |>
+  select(described_variables, st, n, na, mean, sd, se_mean, IQR, skewness, kurtosis, p25, p50, p75) |>
+  formattable()
+```
+# Testing Normality
+
+## Shapiro-Wilk Test
+```{r}
+dataset |>
+  normality() |>
+  formattable()
+```
+## Q-Q Plots
+```{r}
+dataset |>
+plot_normality()
+```
+
+# Normality within Groups
+
+## Shaprio-Wilk test
+```{r}
+dataset |>
+  group_by(st) |>
+  select(inj, fat, st) |>
+  normality() |>
+  formattable()
+```
+## Q-Q PLots
+```{r}
+dataset |>
+group_by(st) |>
+  select(inj, fat, st) |>
+  plot_normality()
+```
+
+# Producing an HTML Summary of the Dataset
+```{r}
+#eda_web_report(dataset)
+# Without commenting out this code chunk, the document wasn't getting rendered
+```
