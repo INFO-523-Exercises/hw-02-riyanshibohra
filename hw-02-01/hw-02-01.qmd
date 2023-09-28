@@ -1,0 +1,112 @@
+---
+title: "Homework 2- Diagnosing like a Data Doctor"
+author: Riyanshi Bohra
+format: html
+editor: visual
+---
+
+# Homework 2-
+
+# Diagnosing like a Data Doctor
+
+# Setting up
+
+```{r}
+options(digits = 2)
+
+# Installing and loading required packages
+if (!require(pacman))
+  install.packages("pacman")
+
+pacman::p_load(dlookr, 
+               formattable, 
+               here, 
+               kableExtra, 
+               knitr, 
+               missRanger, 
+               tidyverse) 
+```
+
+## Loading the Tornados dataset
+
+```{r}
+dataset <- read.csv("/Users/riyanshibohra/Desktop/tornados.csv") 
+```
+
+# Diagnosing the data
+
+```{r}
+# What does the data look like?
+dataset |>
+  head() |>
+  formattable()
+```
+
+```{r}
+# Exploring the properties of the data
+dataset |>
+  diagnose() |>
+  formattable()
+```
+
+# Summary Statistics
+
+Working with Numerical columns:
+
+```{r}
+# Summary statistics of the numerical columns
+dataset |>
+  diagnose_numeric() |>
+  formattable()
+```
+
+## Working with Outliers
+
+```{r}
+# Table showing outliers
+diagnose_outlier(dataset) |>
+  filter(outliers_ratio > 0) |>
+  formattable()
+```
+
+```{r}
+# Selecting desired columns and plotting the data
+dataset |>
+    plot_outlier()
+```
+
+## Working with Missing Values(NAs)
+
+```{r}
+# Creating the NA table
+dataset |>
+  generateNA(p = 0.3) |>
+  plot_na_pareto(only_na = TRUE, plot = FALSE) |>
+  formattable() 
+```
+
+```{r}
+# Plotting the intersect of the columns with the most missing values
+
+dataset |>
+  generateNA(p = 0.3) |>
+  select(loss, mag, dy) |>
+  plot_na_intersect(only_na = TRUE) 
+```
+
+## Working with Categorical variables
+
+```{r}
+# Diagnose our categorical columns
+dataset |>
+  diagnose_category() |> 
+  formattable()
+```
+
+# Producing an HTML Summary of the Dataset
+
+```{r}
+#diagnose_web_report(dataset)
+
+#I was unable to render the document without commenting out this chunk of code.#
+```
