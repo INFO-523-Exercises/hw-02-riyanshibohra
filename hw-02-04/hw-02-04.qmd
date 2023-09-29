@@ -1,0 +1,272 @@
+---
+title: "Homework 2- Imputing like a Data Scientist"
+author: Riyanshi Bohra
+format: html
+editor: visual
+---
+
+# Homework 2-
+
+# Imputing like a Data Scientist
+
+# Setting up
+
+```{r}
+options(digits = 2)
+
+# Installing and loading required packages
+if (!require(pacman))
+  install.packages("pacman")
+
+
+pacman::p_load(colorblindr, 
+               cluster, 
+               dlookr, 
+               formattable, 
+               ggfortify, 
+               ggpubr, 
+               here, 
+               kableExtra, 
+               knitr, 
+               missRanger,
+               plotly, 
+               rattle, 
+               rpart, 
+               tidyverse, 
+               visdat) 
+
+# Setting global ggplot() theme
+
+# Theme pub_clean() from the ggpubr package
+theme_set(theme_pubclean(base_size = 16)) 
+
+theme_update(axis.title = element_text(hjust = 1))
+
+theme_update(axis.ticks = element_blank()) # Remove axes ticks
+
+theme_update(legend.key = element_blank()) # Remove legend key
+```
+
+## Loading the Tornados dataset and adding a categorical group
+
+```{r}
+dataset <- read.csv("/Users/riyanshibohra/Desktop/tornados.csv") |>
+   # Add a categorical group
+  mutate(Year_group = ifelse(yr >= 1950 & yr <= 1975, "1950-1975", 
+                            ifelse(yr > 1975 & yr <= 2000, "1976-2000", 
+                                   "2001-2022")),
+         Year_group = fct_rev(Year_group))
+```
+
+# Diagnosing the data
+
+```{r}
+
+# What does the data look like?
+dataset |>
+  head() |>
+  formattable()
+```
+
+```{r}
+# Exploring the properties of the data
+dataset |>
+  diagnose() |>
+  formattable()
+```
+
+## Dealing with Outliers
+
+```{r}
+# Table showing outliers
+dataset |>
+  diagnose_outlier() |>
+  filter(outliers_ratio > 0) |>  
+  mutate(rate = outliers_mean / with_mean) |>
+  arrange(desc(rate)) |> 
+  select(-outliers_cnt) |>
+  formattable()
+```
+
+```{r}
+# Plotting the data with and without outliers
+dataset |>
+  select(find_outliers(dataset)) |>
+           plot_outlier()
+```
+
+## Dealing with Missing Values(NAs)
+
+```{r}
+# Randomly generate NAs for 30
+na.dataset <- dataset |>
+  generateNA(p = 0.3)
+
+# First six rows
+na.dataset |>
+head() |>
+  formattable()
+```
+
+```{r}
+# Creating the NA table
+na.dataset |>
+  plot_na_pareto(only_na = TRUE, plot = FALSE) |>
+  formattable() 
+```
+
+```{r}
+# Plotting the data table
+na.dataset |>
+  plot_na_pareto(only_na = TRUE)
+```
+
+## Advanced Exploration of Missing Values(NAs)
+
+```{r}
+# Plotting the intersect of columns with the most missing values- yr,wid,tz
+
+na.dataset |>
+  select(yr, wid, tz) |>
+  plot_na_intersect(only_na = TRUE) 
+```
+
+# Imputing Outliers and NAs
+
+## Outliers
+
+### Classification of Outliers
+
+```{r}
+# Define the Okabe-Ito colors
+OkabeItoColors <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+# Use with the provided ggplot2 code
+dataset %>% 
+  ggplot(aes(x = wid, y = Year_group, fill = Year_group)) + 
+  geom_boxplot(width = 0.5, outlier.size = 2, outlier.alpha = 0.5) +
+  scale_fill_manual(values = OkabeItoColors) +  # Applying the Okabe-Ito color palette
+  xlab("Width in Yards") +  
+  ylab("Year group") + 
+  theme(legend.position = "none")  # Removing the legend
+
+```
+
+### Mean Imputation
+
+```{r}
+# Raw summary, output suppressed
+mean_out_imp_width<- dataset |>
+  select(wid) |>
+  filter(wid < 1000) |>
+  imputate_outlier(wid, method = "mean")
+
+# Output showing the summary statistics of our imputation
+mean_out_imp_width |>
+  summary() 
+```
+
+```{r}
+# Plotting the mean imputation
+mean_out_imp_width |>
+  plot()
+```
+
+### Median Imputation
+
+```{r}
+# Raw summary, output suppressed
+med_out_imp_width <- dataset |>
+  select(wid) |>
+  filter(wid < 1000) |>
+  imputate_outlier(wid, method = "median")
+
+# Output showing the summary statistics of our imputation
+med_out_imp_width |>
+  summary()
+```
+
+```{r}
+# Visualization of the median imputation
+med_out_imp_width |>
+  plot()
+```
+
+### Mode Imputation
+
+```{r}
+# Raw summary, output suppressed
+mode_out_imp_width <- dataset |>
+  select(wid) |>
+  filter(wid < 1000) |>
+  imputate_outlier(wid, method = "mode")
+
+# Output showing the summary statistics of our imputation
+mode_out_imp_width |>
+  summary()
+```
+
+```{r}
+# Visualization of the mode imputation
+mode_out_imp_width |>
+plot()
+```
+
+### Winsorizing- Capping Imputation
+
+```{r}
+# Raw summary, output suppressed
+cap_out_imp_width <- dataset |>
+  select(wid) |>
+  filter(wid < 1000) |>
+  imputate_outlier(wid, method = "capping")
+
+# Output showing the summary statistics of our imputation
+cap_out_imp_width |>
+  summary()
+```
+
+```{r}
+# Visualization of the capping imputation
+cap_out_imp_width |>
+  plot()
+```
+## Missing Values
+
+### K-Nearest Neighbor(KNN) Imputation
+
+```{r}
+#Unable to run code block as discussed in class
+#autoplot(clara(dataset[-5],3)) 
+#   scale_color_OkabeIto()
+
+#knn_na_imp_width <- na.dataset |>
+  #imputate_na(wid, method = "knn")
+
+#knn_na_imp_width |>
+  #plot()
+```
+### Recursive Partitioning and Regression Trees (rpart)
+
+```{r}
+#Unable to run code block as discussed in class
+#rpart_na_imp_width <- na.dataset |>
+  #imputate_na(wid, method = "rpart")
+
+# Plot showing the results of our imputation
+#rpart_na_imp_width |>
+  #plot()
+```
+
+### Multivariate Imputation by Chained Equations (MICE)
+
+```{r}
+  # This block of code took more than half an hour to run
+#mice_na_imp_width <- na.dataset |>
+  #imputate_na(wid, method = "mice", seed = 123)
+
+#mice_na_imp_insulin |>
+  #plot()
+```
+
+
