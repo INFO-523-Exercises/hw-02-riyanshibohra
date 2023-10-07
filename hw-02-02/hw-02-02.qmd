@@ -29,26 +29,28 @@ pacman::p_load(dlookr,
 ## Loading the Tornados dataset
 
 ```{r}
+#Load the 'tornados.csv' dataset
 dataset <- read.csv("/Users/riyanshibohra/Desktop/tornados.csv") 
 ```
 
 # Diagnosing the data
 
 ```{r}
-# What does the data look like?
+# Display the first few rows of the dataset to get an overview
 dataset |>
   head() |>
   formattable()
 ```
 
 ```{r}
-# Exploring the properties of the data
+# Explore and display the general properties and structure of the dataset
 dataset |>
   diagnose() |>
   formattable()
 ```
 
 ## Analyzing the continuous data
+
 ```{r}
 # Summary statistics 
 dataset |>
@@ -63,6 +65,7 @@ dataset |>
   select(described_variables, n, na, mean, sd, se_mean, IQR, skewness, kurtosis, p25, p50, p75) |>
   formattable()
 ```
+
 ## Describing the Categorical Variables
 
 ```{r}
@@ -70,47 +73,68 @@ dataset |>
   diagnose_category() |>
   formattable()
 ```
+
 ## Grouping the Descriptive Statistics
+
 ```{r}
 dataset |>
   group_by(st) |>
   describe() |>
   select(described_variables, st, n, na, mean, sd, se_mean, IQR, skewness, kurtosis, p25, p50, p75) |>
   formattable()
+
+#The table presents a grouped view of the statistical measures for various numerical columns in the dataset, broken down by state. 
+# It reveals variations in tornado occurrences across different states. For instance, while some states like Texas (TX) have a higher count of tornado events, others like Alaska (AK) report fewer incidents.
 ```
+
 # Testing Normality
 
 ## Shapiro-Wilk Test
+
 ```{r}
 dataset |>
   normality() |>
   formattable()
+
+#The Shapiro-Wilk test results suggest that the distributions of many variables in the dataset are not normally distributed(p-values are almost zero)
 ```
+
 ## Q-Q Plots
+
 ```{r}
 dataset |>
 plot_normality()
+
+#The Q-Q plots visually show the non-normal nature of the tornado dataset's columns. Specifically, the plots for injuries, fatalities, and economic loss show pronounced deviations, highlighting the presence of outliers
 ```
 
 # Normality within Groups
 
 ## Shaprio-Wilk test
+
 ```{r}
 dataset |>
   group_by(st) |>
   select(inj, fat, st) |>
   normality() |>
   formattable()
+
+# When evaluated state-by-state, the distributions of tornado-related injuries and fatalities do not show a normal distribution. This non-normal trend across states suggests that tornado impacts vary widely, with some tornado events causing high damages in comparison to others
 ```
+
 ## Q-Q PLots
+
 ```{r}
 dataset |>
 group_by(st) |>
   select(inj, fat, st) |>
   plot_normality()
+
+# The Q-Q plots for states further visualize the non-normality in tornado impacts. States like Texas and Oklahoma, known for their frequent tornado activity, show  varying deviations in the plots, emphasizing the irregular nature of severe tornado events and their consequences
 ```
 
 # Producing an HTML Summary of the Dataset
+
 ```{r}
 #eda_web_report(dataset)
 # Without commenting out this code chunk, the document wasn't getting rendered

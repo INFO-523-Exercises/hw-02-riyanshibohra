@@ -128,14 +128,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="loading-the-tornados-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="loading-the-tornados-dataset">Loading the Tornados dataset</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/Users/riyanshibohra/Desktop/tornados.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load the 'tornados.csv' dataset</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/Users/riyanshibohra/Desktop/tornados.csv"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="diagnosing-the-data" class="level1">
 <h1>Diagnosing the data</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What does the data look like?</span></span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first few rows of the dataset to get an overview</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formattable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -732,7 +733,7 @@ FALSE
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exploring the properties of the data</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Explore and display the general properties and structure of the dataset</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diagnose</span>() <span class="sc">|&gt;</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formattable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -50529,6 +50530,8 @@ WY
 
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The table presents a grouped view of the statistical measures for various numerical columns in the dataset, broken down by state. </span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># It reveals variations in tornado occurrences across different states. For instance, while some states like Texas (TX) have a higher count of tornado events, others like Alaska (AK) report fewer incidents.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -50537,9 +50540,9 @@ WY
 <section id="shapiro-wilk-test" class="level2">
 <h2 class="anchored" data-anchor-id="shapiro-wilk-test">Shapiro-Wilk Test</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">normality</span>() <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formattable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">normality</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formattable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <table class="table table-condensed">
@@ -50565,10 +50568,10 @@ sample
 om
 </td>
 <td style="text-align:right;">
-0.524
+0.525
 </td>
 <td style="text-align:right;">
-4.5e-79
+4.7e-79
 </td>
 <td style="text-align:right;">
 5000
@@ -50579,10 +50582,10 @@ om
 yr
 </td>
 <td style="text-align:right;">
-0.953
+0.954
 </td>
 <td style="text-align:right;">
-2.3e-37
+4.4e-37
 </td>
 <td style="text-align:right;">
 5000
@@ -50593,10 +50596,10 @@ yr
 mo
 </td>
 <td style="text-align:right;">
-0.954
+0.950
 </td>
 <td style="text-align:right;">
-4.5e-37
+4.1e-38
 </td>
 <td style="text-align:right;">
 5000
@@ -50607,10 +50610,10 @@ mo
 dy
 </td>
 <td style="text-align:right;">
-0.952
+0.955
 </td>
 <td style="text-align:right;">
-1.3e-37
+9.8e-37
 </td>
 <td style="text-align:right;">
 5000
@@ -50621,10 +50624,10 @@ dy
 stf
 </td>
 <td style="text-align:right;">
-0.953
+0.955
 </td>
 <td style="text-align:right;">
-2.4e-37
+7.5e-37
 </td>
 <td style="text-align:right;">
 5000
@@ -50635,10 +50638,10 @@ stf
 mag
 </td>
 <td style="text-align:right;">
-0.790
+0.778
 </td>
 <td style="text-align:right;">
-2.9e-62
+2.8e-63
 </td>
 <td style="text-align:right;">
 5000
@@ -50649,10 +50652,10 @@ mag
 inj
 </td>
 <td style="text-align:right;">
-0.047
+0.032
 </td>
 <td style="text-align:right;">
-1.0e-94
+4.3e-95
 </td>
 <td style="text-align:right;">
 5000
@@ -50663,10 +50666,10 @@ inj
 fat
 </td>
 <td style="text-align:right;">
-0.046
+0.034
 </td>
 <td style="text-align:right;">
-9.5e-95
+4.8e-95
 </td>
 <td style="text-align:right;">
 5000
@@ -50677,10 +50680,10 @@ fat
 loss
 </td>
 <td style="text-align:right;">
-0.038
+0.017
 </td>
 <td style="text-align:right;">
-6.0e-82
+4.5e-82
 </td>
 <td style="text-align:right;">
 5000
@@ -50691,10 +50694,10 @@ loss
 slat
 </td>
 <td style="text-align:right;">
-0.992
+0.993
 </td>
 <td style="text-align:right;">
-2.3e-16
+2.0e-15
 </td>
 <td style="text-align:right;">
 5000
@@ -50705,10 +50708,10 @@ slat
 slon
 </td>
 <td style="text-align:right;">
-0.971
+0.975
 </td>
 <td style="text-align:right;">
-9.7e-31
+7.7e-29
 </td>
 <td style="text-align:right;">
 5000
@@ -50719,10 +50722,10 @@ slon
 elat
 </td>
 <td style="text-align:right;">
-0.762
+0.764
 </td>
 <td style="text-align:right;">
-6.7e-65
+8.8e-65
 </td>
 <td style="text-align:right;">
 5000
@@ -50733,10 +50736,10 @@ elat
 elon
 </td>
 <td style="text-align:right;">
-0.723
+0.721
 </td>
 <td style="text-align:right;">
-6.9e-68
+4.9e-68
 </td>
 <td style="text-align:right;">
 5000
@@ -50747,10 +50750,10 @@ elon
 len
 </td>
 <td style="text-align:right;">
-0.388
+0.392
 </td>
 <td style="text-align:right;">
-1.4e-84
+1.9e-84
 </td>
 <td style="text-align:right;">
 5000
@@ -50761,10 +50764,10 @@ len
 wid
 </td>
 <td style="text-align:right;">
-0.477
+0.446
 </td>
 <td style="text-align:right;">
-3.9e-81
+2.2e-82
 </td>
 <td style="text-align:right;">
 5000
@@ -50775,10 +50778,10 @@ wid
 ns
 </td>
 <td style="text-align:right;">
-0.062
+0.058
 </td>
 <td style="text-align:right;">
-2.5e-94
+1.9e-94
 </td>
 <td style="text-align:right;">
 5000
@@ -50789,10 +50792,10 @@ ns
 sn
 </td>
 <td style="text-align:right;">
-0.063
+0.058
 </td>
 <td style="text-align:right;">
-2.5e-94
+1.9e-94
 </td>
 <td style="text-align:right;">
 5000
@@ -50803,10 +50806,10 @@ sn
 f1
 </td>
 <td style="text-align:right;">
-0.814
+0.826
 </td>
 <td style="text-align:right;">
-3.1e-60
+6.0e-59
 </td>
 <td style="text-align:right;">
 5000
@@ -50820,7 +50823,7 @@ f2
 0.243
 </td>
 <td style="text-align:right;">
-2.3e-89
+2.2e-89
 </td>
 <td style="text-align:right;">
 5000
@@ -50831,10 +50834,10 @@ f2
 f3
 </td>
 <td style="text-align:right;">
-0.077
+0.086
 </td>
 <td style="text-align:right;">
-5.7e-94
+9.8e-94
 </td>
 <td style="text-align:right;">
 5000
@@ -50845,7 +50848,7 @@ f3
 f4
 </td>
 <td style="text-align:right;">
-0.031
+0.032
 </td>
 <td style="text-align:right;">
 4.3e-95
@@ -50858,13 +50861,14 @@ f4
 
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The Shapiro-Wilk test results suggest that the distributions of many variables in the dataset are not normally distributed(p-values are almost zero)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="q-q-plots" class="level2">
 <h2 class="anchored" data-anchor-id="q-q-plots">Q-Q Plots</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_normality</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_normality</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="hw-02-02_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -50928,6 +50932,7 @@ f4
 <div class="cell-output-display">
 <p><img src="hw-02-02_files/figure-html/unnamed-chunk-10-21.png" class="img-fluid" width="672"></p>
 </div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The Q-Q plots visually show the non-normal nature of the tornado dataset's columns. Specifically, the plots for injuries, fatalities, and economic loss show pronounced deviations, highlighting the presence of outliers</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -50936,11 +50941,11 @@ f4
 <section id="shaprio-wilk-test" class="level2">
 <h2 class="anchored" data-anchor-id="shaprio-wilk-test">Shaprio-Wilk test</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(st) <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(inj, fat, st) <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">normality</span>() <span class="sc">|&gt;</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formattable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(st) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(inj, fat, st) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">normality</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formattable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <table class="table table-condensed">
@@ -51720,10 +51725,10 @@ inj
 TX
 </td>
 <td style="text-align:right;">
-0.079
+0.017
 </td>
 <td style="text-align:right;">
-6.5e-94
+1.9e-95
 </td>
 <td style="text-align:right;">
 5000
@@ -52621,10 +52626,10 @@ fat
 TX
 </td>
 <td style="text-align:right;">
-0.019
+0.036
 </td>
 <td style="text-align:right;">
-2.2e-95
+5.4e-95
 </td>
 <td style="text-align:right;">
 5000
@@ -52770,15 +52775,16 @@ WY
 
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># When evaluated state-by-state, the distributions of tornado-related injuries and fatalities do not show a normal distribution. This non-normal trend across states suggests that tornado impacts vary widely, with some tornado events causing high damages in comparison to others</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="q-q-plots-1" class="level2">
 <h2 class="anchored" data-anchor-id="q-q-plots-1">Q-Q PLots</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(st) <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(inj, fat, st) <span class="sc">|&gt;</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_normality</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(st) <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(inj, fat, st) <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_normality</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="hw-02-02_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -53097,14 +53103,15 @@ WY
 <div class="cell-output-display">
 <p><img src="hw-02-02_files/figure-html/unnamed-chunk-12-106.png" class="img-fluid" width="672"></p>
 </div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The Q-Q plots for states further visualize the non-normality in tornado impacts. States like Texas and Oklahoma, known for their frequent tornado activity, show  varying deviations in the plots, emphasizing the irregular nature of severe tornado events and their consequences</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="producing-an-html-summary-of-the-dataset" class="level1">
 <h1>Producing an HTML Summary of the Dataset</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#eda_web_report(dataset)</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Without commenting out this code chunk, the document wasn't getting rendered</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#eda_web_report(dataset)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Without commenting out this code chunk, the document wasn't getting rendered</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 
