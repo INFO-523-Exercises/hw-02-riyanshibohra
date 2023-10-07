@@ -44,13 +44,14 @@ theme_update(legend.key = element_blank())
 ## Loading the Tornados dataset
 
 ```{r}
+#Load the 'tornados.csv' dataset
 dataset <- read.csv("/Users/riyanshibohra/Desktop/tornados.csv") 
 ```
 
 # Diagnosing the data
 
 ```{r}
-# What does the data look like?
+# Display the first few rows of the dataset to get an overview
 dataset |>
   head() |>
   formattable()
@@ -63,6 +64,8 @@ dataset |>
 ```{r}
 correlate(dataset) |>
   formattable()
+
+# The pairwise correlation matrix offers insights into linear relationships between numeric attributes in the tornados dataset. Values close to 1 or -1 indicate strong positive or negative correlations, respectively, while values near 0 suggest weak or no linear correlation.
 ```
 
 ## Correlation matrix: Numerical variables
@@ -70,6 +73,8 @@ correlate(dataset) |>
 ```{r}
 dataset |>
 plot_correlate()
+
+# The heatmap reveals varying degrees of correlation between numeric attributes in the tornado dataset. While several variables exhibit minimal correlation (near zero values), some pairs, like ns and sn, show strong negative correlations, and others, like inj and fat, display strong positive correlations.
 ```
 
 ## Visualize Correlations within Groups
@@ -80,6 +85,8 @@ plot_correlate()
 dataset |>
   group_by(ns) |>
   plot_correlate()
+
+#  While many coefficients are relatively low, suggesting weak correlations, certain pairs, like inj and fat, display notable positive correlations
 ```
 
 ## Using ggpairs()
@@ -100,9 +107,9 @@ dataset |>
 #3. Convert to Numeric. But this function doesn't work for numeric data
 ```
 
-#Visualizing relationship based on the Target Variable
+# Visualizing relationship based on the Target Variable
 
-##Numerical Target Variables: Numerical predictor variable
+## Numerical Target Variables: Numerical predictor variable
 
 ```{r}
 # Removing NA values
@@ -112,13 +119,13 @@ dataset.noNA <- dataset |>
 
 ```{r}
 # The target variable
-num <- target_by(dataset.noNA, sn)
+num <- target_by(dataset.noNA, loss)
 
 ```
 
 ```{r}
 # Relating the predictor variable and target variable
-num_num <- relate(num, ns)
+num_num <- relate(num, mag)
 
 # Summary of the regression analysis 
 summary(num_num)
@@ -127,18 +134,20 @@ summary(num_num)
 ```{r}
 # Plotting the linear relationship
 plot(num_num)
+
+# There seems to be a general trend indicating that as the magnitude of tornados increases, the associated loss tends to be higher.
 ```
 
 ## Numerical Target Variables: Categorical predictor variable
 
 ```{r}
 # The target variable
-num <- target_by(dataset, ns) 
+num <- target_by(dataset, loss) 
 ```
 
 ```{r}
 
-num$tz <- as.factor(num$tz)
+  num$tz <- as.factor(num$tz)
 
 # Relating the predictor variable and the target variable
 num_cat <- relate(num, tz)
@@ -151,6 +160,8 @@ summary(num_cat)
 #Plotting the graph
 plot(num_cat) + 
   theme(axis.text.x = element_blank())
+
+#The loss distributions differ noticeably across tz.
 ```
 
 ## Categorical Target Variable: Numerical predictor variable
@@ -170,8 +181,12 @@ summary(cat_num)
 #Plotting
 
 plot(cat_num) 
+
+#The plot illustrates the distribution of tornado widths (wid) across various time zones (t).Each color represents the distribution of widths in a specific time zone 
 ```
+
 ## Categorical Target Variable: Categorical predictor variable
+
 ```{r}
 # Creating new categorical column
 cat_dataset <- dataset |>
@@ -202,24 +217,6 @@ summary(cat_cat)
 ```{r}
 #Plotting
 plot(cat_cat)
-```
 
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
+#The mosaic plot illuminates the distribution of "HighLWP" values across various time zones
 ```
