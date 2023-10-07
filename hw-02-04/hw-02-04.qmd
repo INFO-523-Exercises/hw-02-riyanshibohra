@@ -50,6 +50,7 @@ theme_update(legend.key = element_blank()) # Remove legend key
 ## Loading the Tornados dataset and adding a categorical group
 
 ```{r}
+#Load the 'tornados.csv' dataset
 dataset <- read.csv("/Users/riyanshibohra/Desktop/tornados.csv") |>
    # Add a categorical group
   mutate(Year_group = ifelse(yr >= 1950 & yr <= 1975, "1950-1975", 
@@ -61,15 +62,14 @@ dataset <- read.csv("/Users/riyanshibohra/Desktop/tornados.csv") |>
 # Diagnosing the data
 
 ```{r}
-
-# What does the data look like?
+# Display the first few rows of the dataset to get an overview
 dataset |>
   head() |>
   formattable()
 ```
 
 ```{r}
-# Exploring the properties of the data
+# Explore and display the general properties and structure of the dataset
 dataset |>
   diagnose() |>
   formattable()
@@ -86,6 +86,8 @@ dataset |>
   arrange(desc(rate)) |> 
   select(-outliers_cnt) |>
   formattable()
+
+#An initial diagnosis multiple rows with potential outliers, which might require further analysis
 ```
 
 ```{r}
@@ -113,6 +115,8 @@ head() |>
 na.dataset |>
   plot_na_pareto(only_na = TRUE, plot = FALSE) |>
   formattable() 
+
+ # The dataset contains the most missing values in the mag, loss, and Year_group columns. 
 ```
 
 ```{r}
@@ -124,10 +128,10 @@ na.dataset |>
 ## Advanced Exploration of Missing Values(NAs)
 
 ```{r}
-# Plotting the intersect of columns with the most missing values- yr,wid,tz
+# Plotting the intersect of columns with the most missing values- Year_group,loss,mag
 
 na.dataset |>
-  select(yr, wid, tz) |>
+  select(Year_group, loss, mag) |>
   plot_na_intersect(only_na = TRUE) 
 ```
 
@@ -150,6 +154,8 @@ dataset %>%
   ylab("Year group") + 
   theme(legend.position = "none")  # Removing the legend
 
+#It's evident through the boxplot that there are multiple outlier points in the 'wid' column
+
 ```
 
 ### Mean Imputation
@@ -170,6 +176,8 @@ mean_out_imp_width |>
 # Plotting the mean imputation
 mean_out_imp_width |>
   plot()
+
+#Mean imputation for the wid column has effectively neutralized extreme outliers by replacing them with the average width
 ```
 
 ### Median Imputation
@@ -190,6 +198,8 @@ med_out_imp_width |>
 # Visualization of the median imputation
 med_out_imp_width |>
   plot()
+
+# Median imputation for the wid column has addressed the outliers by substituting them with the median width. This approach is more robust to extreme values than mean imputation, but it also increases the frequency of the median
 ```
 
 ### Mode Imputation
@@ -210,6 +220,9 @@ mode_out_imp_width |>
 # Visualization of the mode imputation
 mode_out_imp_width |>
 plot()
+
+# Mode imputation for the wid column has managed the outliers by replacing them with the most common width in the dataset. While this method acknowledges the most typical occurrence, it can introduce bias.
+
 ```
 
 ### Winsorizing- Capping Imputation
@@ -230,13 +243,17 @@ cap_out_imp_width |>
 # Visualization of the capping imputation
 cap_out_imp_width |>
   plot()
+
+# Winsorizing the wid column has managed outliers by arranging them to specified percentiles, thereby preserving the distribution's general shape
 ```
+
 ## Missing Values
 
 ### K-Nearest Neighbor(KNN) Imputation
 
 ```{r}
 #Unable to run code block as discussed in class
+#It appears that the KNN imputation requires a huge amount of memory due to the size of the dataset, leading to a memory error.
 #autoplot(clara(dataset[-5],3)) 
 #   scale_color_OkabeIto()
 
@@ -246,10 +263,12 @@ cap_out_imp_width |>
 #knn_na_imp_width |>
   #plot()
 ```
+
 ### Recursive Partitioning and Regression Trees (rpart)
 
 ```{r}
 #Unable to run code block as discussed in class
+#It is encountering issues, particularly due to NaN values present in the dataset.
 #rpart_na_imp_width <- na.dataset |>
   #imputate_na(wid, method = "rpart")
 
@@ -261,12 +280,12 @@ cap_out_imp_width |>
 ### Multivariate Imputation by Chained Equations (MICE)
 
 ```{r}
-  # This block of code took more than half an hour to run
+# This block of code took more time than expected to execute(while rendering) so commenting out
 #mice_na_imp_width <- na.dataset |>
   #imputate_na(wid, method = "mice", seed = 123)
 
 #mice_na_imp_insulin |>
   #plot()
+
+#The Multivariate Imputation by Chained Equations (MICE) approach effectively imputes missing values in the wid column, preserving the original distribution's characteristics. 
 ```
-
-

@@ -53,6 +53,7 @@ dataset |>
 # Summary Statistics
 
 ## Working with Numerical variables
+
 ```{r}
 # Compute and display summary statistics for numerical columns in the dataset
 dataset |>
