@@ -30,20 +30,21 @@ pacman::p_load(dlookr,
 ## Loading the Tornados dataset
 
 ```{r}
+#Load the 'tornados.csv' dataset
 dataset <- read.csv("/Users/riyanshibohra/Desktop/tornados.csv") 
 ```
 
 # Diagnosing the data
 
 ```{r}
-# What does the data look like?
+# Display the first few rows of the dataset to get an overview
 dataset |>
   head() |>
   formattable()
 ```
 
 ```{r}
-# Exploring the properties of the data
+# Explore and display the general properties and structure of the dataset
 dataset |>
   diagnose() |>
   formattable()
@@ -51,10 +52,9 @@ dataset |>
 
 # Summary Statistics
 
-Working with Numerical columns:
-
+## Working with Numerical variables
 ```{r}
-# Summary statistics of the numerical columns
+# Compute and display summary statistics for numerical columns in the dataset
 dataset |>
   diagnose_numeric() |>
   formattable()
@@ -63,14 +63,14 @@ dataset |>
 ## Working with Outliers
 
 ```{r}
-# Table showing outliers
+#Identify and display columns with outliers
 diagnose_outlier(dataset) |>
   filter(outliers_ratio > 0) |>
   formattable()
 ```
 
 ```{r}
-# Selecting desired columns and plotting the data
+# Visualize outliers in the dataset
 dataset |>
     plot_outlier()
 ```
@@ -78,7 +78,7 @@ dataset |>
 ## Working with Missing Values(NAs)
 
 ```{r}
-# Creating the NA table
+# Generate a table indicating the presence of missing values in the dataset
 dataset |>
   generateNA(p = 0.3) |>
   plot_na_pareto(only_na = TRUE, plot = FALSE) |>
@@ -86,18 +86,22 @@ dataset |>
 ```
 
 ```{r}
-# Plotting the intersect of the columns with the most missing values
+# Visualize the intersection of columns with the highest number of missing values
 
 dataset |>
   generateNA(p = 0.3) |>
   select(loss, mag, dy) |>
   plot_na_intersect(only_na = TRUE) 
+
+
+#The visualization illustrates the intersection of missing values across the columns loss, mag, and dy. The overlaps highlight areas where multiple columns simultaneously lack data.
 ```
 
 ## Working with Categorical variables
 
 ```{r}
-# Diagnose our categorical columns
+# Diagnose and display properties of categorical columns in the dataset.
+
 dataset |>
   diagnose_category() |> 
   formattable()
@@ -106,6 +110,7 @@ dataset |>
 # Producing an HTML Summary of the Dataset
 
 ```{r}
+#Generate a comprehensive web-based report for the dataset. (Note: Currently commented out due to rendering issues.)
 #diagnose_web_report(dataset)
 
 #I was unable to render the document without commenting out this chunk of code.#
