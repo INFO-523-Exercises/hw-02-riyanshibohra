@@ -30,6 +30,7 @@ pacman::p_load(dlookr,
 ## Loading the Tornados dataset and adding a categorical group
 
 ```{r}
+#Load the 'tornados.csv' dataset
 dataset <- read.csv("/Users/riyanshibohra/Desktop/tornados.csv") |>
    # Add a categorical group
   mutate(Year_group = ifelse(yr >= 1950 & yr <= 1975, "1950-1975", 
@@ -41,8 +42,7 @@ dataset <- read.csv("/Users/riyanshibohra/Desktop/tornados.csv") |>
 # Diagnosing the data
 
 ```{r}
-
-# What does the data look like?
+# Display the first few rows of the dataset to get an overview
 dataset |>
   head() |>
   formattable()
@@ -51,11 +51,14 @@ dataset |>
 # Describing the properties of Data
 
 ```{r}
+# Explore and display the general properties and structure of the dataset
 dataset |>
   select(slat, slon, elat, elon) |>
   describe() |>
   select(described_variables, skewness) |>
   formattable()
+
+#The results tell us how the variables are lacking in symmetry and are either positively skewed or negatively skewed
 ```
 
 # Testing Normality
@@ -65,6 +68,8 @@ dataset |>
 ```{r}
 dataset |>
 plot_normality(slat, slon, elat,elon)
+
+#The Q-Q plots show that the starting points (slat and slon) of tornado events have a distribution that approximates normality. However, the ending points (elat and elon) have distributions that deviate from normality, possibly due to missing values in the data
 ```
 
 # Normality within Groups
@@ -76,6 +81,8 @@ dataset %>%
   group_by(Year_group) %>%
   select(slat, slon) %>%
   plot_normality()
+
+# When looking at variables slat and slon within different year groups, the data distributions for both latitude and longitude appear to approach normality across all eras. This indicates that the geographic initial points of tornadoes remained stable over time
 ```
 
 # Transforming the Data
@@ -86,18 +93,22 @@ WidMod <- dataset |>
   filter(wid > 0)
 ```
 
-##Square-root Transformation
+## Square-root Transformation
 
 ```{r}
 sqrtWid <- transform(WidMod$wid, method = "sqrt") 
 
 summary(sqrtWid)
+
+# The square-root transformation of the wid column has compressed the scale and reduced the effect of extreme values. The transformed data exhibits a narrower range compared to the original data
 ```
 
 ```{r}
 #Plotting the transformed data
 sqrtWid |>
   plot()
+
+#The square-root transformation has produced a distribution that, while still right skewed, is more spread out and less concentrated at extremely high values. 
 ```
 
 ## Logarithmic Transformation
@@ -106,12 +117,16 @@ sqrtWid |>
 Log1Wid <- transform(WidMod$wid, method = "log+1") 
 
 summary(Log1Wid)
+
+# The logarithmic transformation has compressed the scale of the wid column further, reducing the impact of extreme values and narrowing the range
 ```
 
 ```{r}
 # Plotting the transformed data
 Log1Wid |>
   plot()
+
+#The logarithmic transformation has produced a more bell-shaped distribution, which approaches normality. This transformation is often used to handle skewed data and make it more symmetric, which it has achieved in this scenario as well
 ```
 
 ## Inverse Transformation
@@ -120,39 +135,58 @@ Log1Wid |>
 InvWid <- transform(WidMod$wid, method = "1/x") 
 
 summary(InvWid)
+
+#The inverse transformation has compressed the scale of the wid column significantly, producing values that are more concentrated around the lower range. This can be beneficial for skewed data
 ```
 
 ```{r}
 # Plotting the transformed data
 InvWid |>
   plot()
+
+#The inverse transformation has increased the skewness of the wid column, creating a distribution with a pronounced tail.The extreme skewness suggests that this transformation might not be ideal for this analysis
 ```
+
 ## Squared Transformation
+
 ```{r}
 SqrdWid <- transform(WidMod$wid, method = "x^2") 
 
 summary(SqrdWid)
+
+#The squared transformation has expanded the scale of the wid column, focusing on the differences between larger values. This transformation has amplified the variance.
 ```
 
 ```{r}
+#Plotting the distribution of the squared transformed wid data
 SqrdWid |>
   plot()
+
+#The squared transformation has intensified the right-skewness of the wid column, producing a distribution with a noticeable tail of larger values
 ```
+
 ## Cubed Transformation
+
 ```{r}
+#Cubed Transformation of wid (Width in Yards) Column
 CubeWid <- transform(WidMod$wid, method = "x^3") 
 
 summary(CubeWid)
+
+#The cubed transformation has drastically expanded the scale of the wid column, emphasizing differences between larger values even more than the squared transformation. The transformation has further increased the skewness and variance in the data
 ```
 
 ```{r}
 CubeWid |>
   plot()
+
+#Further amplified the skewness and variance
 ```
 
 ## Box-cox Transformation
 
 ```{r}
+# Performing the Box-cox transformation
 BoxCoxWid <- transform(WidMod$wid, method = "Box-Cox") 
 
 summary(BoxCoxWid)
@@ -162,11 +196,13 @@ summary(BoxCoxWid)
 # Plotting the transformed data
 BoxCoxWid |>
   plot()
+
+#The Box-Cox transformation, with an optimal lambda of has further adjusted the wid distribution, making it appear more symmetric and less skewed than most of the previous transformations
 ```
 
 # Producing and HTML Summary
+
 ```{r}
 #transformation_web_report(dataset)
 # Without commenting out this code chunk, the file isn't getting rendered
 ```
-
